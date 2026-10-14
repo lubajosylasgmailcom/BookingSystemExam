@@ -1,5 +1,6 @@
 using BookingSystem.Models;
 using BookingSystem.Repositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookingSystem.Services;
 
@@ -38,6 +39,7 @@ public class BookingService(IBookingRepository repository)
     public BookingResult Create(Booking booking)
     {
         var validationResult = Validate(booking);
+ 
 
         if (!validationResult.IsSuccessful)
         {
@@ -103,8 +105,8 @@ public class BookingService(IBookingRepository repository)
             !existing.IsCancelled &&
             existing.Date == booking.Date &&
             existing.RoomName.Equals(booking.RoomName, StringComparison.OrdinalIgnoreCase) &&
-            booking.StartTime >= existing.StartTime &&
-            booking.StartTime < existing.EndTime);
+            booking.StartTime < existing.EndTime &&
+            booking.EndTime > existing.StartTime);
 
         if (hasOverlap)
         {

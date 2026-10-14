@@ -1,24 +1,55 @@
-När jag försökte skapa en bokning kraschade applikationen om jag skrev
-"six" som antal deltagare. Koden använde int.Parse som försökte
-omvandla texten till ett heltal. Eftersom six inte kunde omvandlas
-uppstod ett fel.
+# Felsökningsrapport
 
-Jag ersatte int.Parse med int.TryParse och en if sats. TryParse
-returnerar false om omvandlingen misslyckas. Då visar programmet ett
-felmeddelande.
+## Vad var felet?
 
-Efter ändringen provade jag att skriva six igen. Felmeddelandet
-visade och applikationen fortsatte utan att krascha.
+Jag valde att undersöka felet med antal deltagare när man skapar
+en bokning. För att testa detta startade jag programmet och valde
+att skapa en ny bokning i menyn. Jag fyllde i uppgifterna och
+skrev six..då kraschade applikationen. Jag förväntade mig att få ett
+felmeddelande och kunna fortsätta använda programmet. Användaren
+kan skriva fel men det ska inte göra att hela programmet stängs.
 
-## Var felet fanns och förväntat beteende
+## Var fanns felet?
 
-Felet fanns i filen BookingConsole.cs  i metoden CreateBooking().
-Raden med int.Parse läste användarens inmatning och försökte direkt
-omvandla den till ett heltal. När jag skrev six kastades ett
-FormatException.
+Felet fanns i BookingConsole.cs i metoden CreateBooking().
+Där användes int.Parse för att omvandla det användaren skrev
+till ett heltal.
 
-Det förväntade beteendet var att programmet skulle visa ett 
-felmeddelande och låta användaren försöka igen eller återgå till menyn.
-Ingen bokning skulle skapas med ett ogiltigt deltagarantal. 
-testade en giltig boking med fyra pers och de registerades utan problem
+Console.ReadLine() läser in text. Om användaren skriver "6"
+kan int.Parse omvandla texten till talet 6. Men när jag skrev
+"six" gick det inte. Då kastades ett FormatException som inte
+hanterades och därför kraschade programmet.
+
+Problemet var alltså att koden försökte omvandla inmatningen
+utan att hantera att användaren kunde skriva något annat än
+ett tal.
+
+## Hur rättade jag felet?
+
+Jag bytte ut int.Parse mot int.TryParse och använde en if sats.
+TryParse försöker också omvandla text till ett heltal men
+returnerar false om det inte går.
+
+Jag använde ! framför TryParse. Det betyder att if satsen
+körs när omvandlingen inte lyckas. Då visar Console.WriteLine
+ett felmeddelande och return lämnar metoden. Efter det kommer
+användaren tillbaka till menyn.
+
+Om användaren skriver ett heltal sparas det i participants
+genom out var participants. Talet används sedan i bokningen.
+De andra kontrollerna till exempel rummets kapacitet, finns
+fortfarande kvar.
+
+## Hur kontrollerade jag ändringen?
+
+Jag startade programmet igen och provade att skriva six
+och fick ett felmeddelande och kom
+tillbaka till menyn utan att programmet kraschar.
+
+## Automatiserat test
+
+Det finns inget befintligt automatiserat test som testar
+just inmatningen six i konsolen. Jag kontrollerade därför
+detta manuellt. Ett automatiserat test för just den här
+kraschen saknas fortfarand
 
