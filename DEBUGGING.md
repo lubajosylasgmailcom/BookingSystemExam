@@ -46,10 +46,3 @@ Jag startade programmet igen och provade att skriva six
 och fick ett felmeddelande och kom
 tillbaka till menyn utan att programmet kraschar.
 
-## Automatiserat test
-
-Det finns inget befintligt automatiserat test som testar
-just inmatningen six i konsolen. Jag kontrollerade därför
-detta manuellt. Ett automatiserat test för just den här
-kraschen saknas fortfarand
-

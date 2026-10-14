@@ -1,23 +1,29 @@
-# Booking System – individual coding exam
+# Booking System
 
-This is a starter project for the individual practical coding exam. The
-application targets .NET 10 and contains a console application and xUnit tests.
+En konsolapplikation för att boka mötesrum.
+Man kan visa aktiva bokningar, söka efter kund, skapa och avboka bokningar.
 
-## Requirements
+## Krav
 
-- .NET 10 SDK
+ .NET 10 SDK
 
-## Run the application
+## Starta programmet
+
+Kör från mappen där BookingSystemExam.slnx finns:
 
 ```bash
 dotnet run --project src/BookingSystem
 ```
 
-## Run the tests
+## Köra tester
 
 ```bash
 dotnet test
 ```
 
-Read the separate assignment instructions before starting. The existing code
-is incomplete and contains intentional defects.
+Alla 14 befintliga tester går igenom.
+Felaktig inmatning av deltagarantal har också testats manuellt.
+
+## Felsökningsrapport
+
+Se DEBUGGING.md.
