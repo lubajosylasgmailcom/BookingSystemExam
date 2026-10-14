@@ -42,6 +42,7 @@ public class BookingService(IBookingRepository repository)
         if (!validationResult.IsSuccessful)
         {
             return validationResult;
+
         }
 
         booking.Id = repository.GetAll().Select(item => item.Id).DefaultIfEmpty(1000).Max() + 1;
@@ -68,7 +69,7 @@ public class BookingService(IBookingRepository repository)
             return BookingResult.Failure("The selected room does not exist.");
         }
 
-        if (booking.StartTime == booking.EndTime)
+        if (booking.StartTime >= booking.EndTime)
         {
             return BookingResult.Failure("The start time must be earlier than the end time.");
         }
